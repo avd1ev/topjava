@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/meals.css"/>
 </head>
 <body>
-<h3><a href="index.html">Home</a> </h3>
+<h3><a href="index.html">Home</a></h3>
 <hr>
 <h2>Meals</h2>
 <a href=""><h4>Add meals</h4></a>
@@ -18,25 +18,16 @@
         <th>Calories</th>
     </tr>
 
-        <c:set var="mealsTo" value="${requestScope.get('list_mealsTo')}"/>
-        <c:forEach var="item" items="${mealsTo}">
-            <tr
-            <c:choose>
-                <c:when test="${item.isExcess()}">
-                    style="color: red"
-                </c:when>
-                <c:otherwise>
-                    style="color: green"
-                </c:otherwise>
-            </c:choose>
-            >
-            <td>${f:formatLocalDateTime(item.getDateTime(), 'dd.MM.yyyy hh:mm')}</td>
-            <td>${item.getDescription()}</td>
-            <td>${item.getCalories()}</td>
+    <c:set var="mealsTo" value="${requestScope.get('list_mealsTo')}"/>
+    <c:forEach var="mealTo" items="${mealsTo}">
+        <tr style="color: ${mealTo.isExcess() ? 'red' : 'green'}">
+            <td>${f:formatLocalDateTime(mealTo.getDateTime(), 'dd.MM.yyyy hh:mm')}</td>
+            <td>${mealTo.getDescription()}</td>
+            <td>${mealTo.getCalories()}</td>
             <td><a href="">Update</a></td>
             <td><a href="">Delete</a></td>
-            </tr>
-        </c:forEach>
+        </tr>
+    </c:forEach>
 
 </table>
 </body>
