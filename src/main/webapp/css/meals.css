@@ -1,0 +1,12 @@
+TABLE {
+    width: 800px;
+    border-collapse: collapse;
+}
+TD, TH {
+    padding: 3px;
+    border: 1px solid black;
+}
+TH {
+    text-align: left; /* Выравнивание по левому краю */
+
+}

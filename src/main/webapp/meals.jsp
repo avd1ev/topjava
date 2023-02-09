@@ -4,25 +4,13 @@
 <html>
 <head>
     <title>Meals</title>
+    <link rel="stylesheet" href="css/meals.css"/>
 </head>
 <body>
 <h3><a href="index.html">Home</a> </h3>
 <hr>
 <h2>Meals</h2>
-<style>
-    TABLE {
-        width: 800px;
-        border-collapse: collapse;
-    }
-    TD, TH {
-        padding: 3px;
-        border: 1px solid black;
-    }
-    TH {
-        text-align: left; /* Выравнивание по левому краю */
-
-    }
-</style>
+<a href=""><h4>Add meals</h4></a>
 <table>
     <tr>
         <th>Date/Time</th>
@@ -45,8 +33,8 @@
             <td>${f:formatLocalDateTime(item.getDateTime(), 'dd.MM.yyyy hh:mm')}</td>
             <td>${item.getDescription()}</td>
             <td>${item.getCalories()}</td>
-            <td>Update</td>
-            <td>Delete</td>
+            <td><a href="">Update</a></td>
+            <td><a href="">Delete</a></td>
             </tr>
         </c:forEach>
 
