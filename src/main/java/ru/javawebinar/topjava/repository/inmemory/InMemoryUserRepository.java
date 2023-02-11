@@ -42,17 +42,17 @@ public class InMemoryUserRepository implements UserRepository {
     public List<User> getAll() {
         return repository.values()
                 .stream()
-                .sorted(Comparator.comparing(AbstractNamedEntity::getName))
+                .sorted(Comparator
+                        .comparing(User::getName)
+                        .thenComparing(User::getEmail))
                 .collect(Collectors.toList());
     }
 
     @Override
     public User getByEmail(String email) {
-        for (Map.Entry<Integer, User> entry : repository.entrySet()) {
-            if (entry.getValue().getEmail().equals(email)) {
-                return entry.getValue();
-            }
-        }
-        return null;
+        return repository.values().stream()
+                .filter(u -> u.getEmail().equals(email))
+                .findAny()
+                .orElse(null);
     }
 }
