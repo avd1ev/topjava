@@ -8,13 +8,19 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class InMemoryMealRepository implements MealRepository {
+    private final Integer userId;
     private final Map<Integer, Meal> repository = new ConcurrentHashMap<>();
     private final AtomicInteger counter = new AtomicInteger(0);
 
     {
         MealsUtil.meals.forEach(this::save);
+    }
+
+    public InMemoryMealRepository(Integer userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -30,17 +36,20 @@ public class InMemoryMealRepository implements MealRepository {
 
     @Override
     public boolean delete(int id) {
-        return repository.remove(id) != null;
+        return repository.get(id).getUserId().equals(userId) && repository.remove(id) != null;
     }
 
     @Override
     public Meal get(int id) {
-        return repository.get(id);
+        return repository.get(id).getUserId().equals(userId) ? repository.get(id) : null;
     }
 
     @Override
     public Collection<Meal> getAll() {
-        return repository.values();
+        return repository.values().stream()
+                .filter(meal -> meal.getUserId().equals(userId))
+                .sorted((m1, m2) -> m2.getDateTime().compareTo(m1.getDateTime()))
+                .collect(Collectors.toList());
     }
 }
 
