@@ -3,9 +3,14 @@ package ru.javawebinar.topjava.repository.inmemory;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.to.MealTo;
+import ru.javawebinar.topjava.util.DateTimeUtil;
 import ru.javawebinar.topjava.util.MealsUtil;
 
-import java.util.Collection;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -42,11 +47,20 @@ public class InMemoryMealRepository implements MealRepository {
     }
 
     @Override
-    public Collection<Meal> getAll(int userId) {
-        return repository.values().stream()
+    public List<MealTo> getAll(int userId) {
+        return MealsUtil.getTos(repository.values().stream()
                 .filter(meal -> meal.getUserId().equals(userId))
                 .sorted((m1, m2) -> m2.getDateTime().compareTo(m1.getDateTime()))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()), MealsUtil.DEFAULT_CALORIES_PER_DAY);
+    }
+
+    @Override
+    public List<MealTo> getBetweenDateTime(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime, int userId) {
+        return MealsUtil.getTos(repository.values().stream()
+                .filter(meal -> meal.getUserId().equals(userId))
+                .filter(meal -> DateTimeUtil.isBetweenHalfOpen(meal.getDateTime(), LocalDateTime.of(startDate, startTime), LocalDateTime.of(endDate, endTime)))
+                .sorted((m1, m2) -> m2.getDateTime().compareTo(m1.getDateTime()))
+                .collect(Collectors.toList()), MealsUtil.DEFAULT_CALORIES_PER_DAY);
     }
 }
 

@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
+import ru.javawebinar.topjava.to.MealTo;
 
-import java.util.Collection;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
 
 @Controller
 public class MealRestController {
@@ -16,9 +19,14 @@ public class MealRestController {
     @Autowired
     private MealService service;
 
-    public Collection<Meal> getAll(int userId) {
+    public List<MealTo> getAll(int userId) {
         log.info("getAll");
         return service.getAll(userId);
+    }
+
+    public List<MealTo> getBetweenDateTime(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime, int userId) {
+        log.info("getBetweenTime");
+        return service.getBetweenDateTime(startDate, endDate, startTime, endTime, userId);
     }
 
     public Meal get(int id, int userId) {
