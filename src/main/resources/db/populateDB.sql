@@ -13,6 +13,6 @@ VALUES ('USER', 100000),
        ('ADMIN', 100001);
 
 INSERT INTO meals (description, calories, user_id, date_time)
-VALUES ('breakfest', 900, 100000, CURRENT_TIMESTAMP),
+VALUES ('breakfast', 900, 100000, '2023-02-22 08:00:00'),
        ('dinner', 1400, 100000, '2023-02-22 12:00:00'),
        ('vechir', 800, 100000, '2023-02-22 18:00:00');
